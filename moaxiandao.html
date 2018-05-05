@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #game{
+            width: 100%;
+            height: 635px;
+            background-image: url("readyBg.jpg");
+            background-size:cover ;
+            background-position: 0 -455px;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+        #game>img{
+            position: absolute;
+          /*  outline: 1px solid red;*/
+        }
+        #startGame{
+            width: 252px;
+            height: 66px;
+            position: absolute;
+            left: 278px;
+            top: 414px;
+            cursor: pointer;
+            background-image: url("start.gif");
+            transition: all 0.2s linear;
+        }
+        #startGame:hover{
+            background-image: url("startOver.gif");
+        }
+        #intro{
+            width: 210px;
+            height: 350px;
+            margin-left: 180px;
+            margin-top: 50px;
+        /*    border: 1px solid red;*/
+            font-weight: bold;
+        }
+        #intro>div{
+          /*  border: 1px solid red;*/
+            overflow: hidden;
+        }
+        #intro span{
+            color: red;
+            font-weight: bolder;
+        }
+        .space>div,.enter>div,.boom>div,.help>div{
+            float: left;
+        }
+        .help{
+            position: relative;
+            height: 90px;
+        }
+        .help div:last-child{
+            position: absolute;
+            top:0;
+            left: 35px;
+        }
+        #playerScore{
+            width: 139px;
+            height: 50px;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background-image: url("ui/RunnerGame.gif");
+            display: none;
+        }
+        #Score{
+            position: absolute;
+            width: 50px;
+            height: 20px;
+            left: 50px;
+            top: 30px;
+        }
+        #playerScore span{
+            position: absolute;
+            left: 80px;
+            top: 30px;
+        }
+        #Left{
+            width: 100px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 20px;
+            display: none;
+        }
+        #goback{
+            width: 81px;
+            height: 35px;
+            background-image: url("ui/back.gif");
+            cursor: pointer;
+        }
+        #goback:hover{
+            background-image: url("ui/backClick.gif");
+        }
+        #exp{
+            width: 31px;
+            height: 166px;
+            margin-left: 25px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        #exp img{
+            width: 31px;
+            height: 166px;
+        }
+        #energy{
+            width: 42px;
+            height: 24px;
+            background-image: url("ui/boom.gif");
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+        #playTime{
+            position: absolute;
+            top: 50px;
+            left: 600px;
+            display: none;
+        }
+        #playTime img{
+            width: 35px;
+            height: 40px;
+        }
+        #gameover{
+            width: 217px;
+            height: 196px;
+            background-image: url("ui/tipBg.png");
+            background-size: cover;
+            position: absolute;
+            left: 575px;
+            top: 220px;
+            display: none;
+        }
+        #btnqr{
+            width: 73px;
+            height: 36px;
+            background-image: url("ui/tipY.gif");
+            background-size: cover;
+            position: absolute;
+            left: 120px;
+            top: 140px;
+            cursor: pointer;
+        }
+        #btnqr:hover{
+            background-image: url("ui/tipYO.gif");
+        }
+        #gameover p{
+            width: 150px;
+            height: 60px;
+            font-size: 25px;
+            font-weight: bold;
+            margin-left: 30px;
+            margin-top: 20px;
+        }
+        #endscore{
+            position: absolute;
+            top: 100px;
+            left: 90px;
+            font-size: 20px;
+            color: red;
+        }
+        #bossBlood{
+            width: 200px;
+            height: 20px;
+            position: absolute;
+            left: 1400px;
+            top: 50px;
+            overflow: hidden;
+            display: none;
+        }
+        #bossBlood img{
+            width: 200px;
+            height: 20px;
+        }
+        #playerBlood{
+            width: 56px;
+            height: 20px;
+            position: absolute;
+            overflow: hidden;
+            display: none;
+        }
+        #playerBlood img{
+            width: 56px;
+            height: 10px;
+        }
+        #skill{
+            width: 1366px;
+            height: 735px;
+            position: absolute;
+            left: 0;
+            top: -100px;
+            background-image: url("skill.gif");
+            background-size: cover;
+            display: none;
+            /*border: 1px solid red;*/
+        }
+    </style>
+</head>
+<body>
+<div id="game">
+    <div id="skill">
+      <!--  <img src="skill.gif" alt=""/>-->
+    </div>
+    <div id="startGame" onclick="startGame()">
+       
+    </div>
+    <div id="intro">
+        <div class="hHelp">
+            <img src="help/Help.png" alt=""/>
+        </div>
+        <div class="space">
+            <div>
+                <img src="help/Help1.png" alt=""/>
+            </div>
+            <div>
+                <span>长按</span>空格键攻击!
+            </div>
+        </div>
+        <div class="enter">
+            <div>
+                <img src="help/Help2.png" alt=""/>
+            </div>
+            <div>
+                伤害有<span>延迟</span>
+            </div>
+        </div>
+        <div class="boom">
+            <div>
+                <img src="help/boom.gif" alt=""/>
+            </div>
+            <div>
+                一个格子为一个大招
+            </div>
+        </div>
+        <div class="help">
+            <div>
+                <img src="help/exp.gif" alt=""/>
+            </div>
+            <div>
+                此乃<span>经验瓶</span>,经验满了之后,宝贝龙会<span>进化</span>,终极状态会有<span>龙卷风</span>等你<span>探索</span>！
+            </div>
+        </div>
+        <div class="time90">
+            <span>游戏时间</span>为<span>90</span>秒哦！
+        </div>
+    </div>
+    <div id="playerScore">
+       <div id="Score">0</div><span>分</span>
+    </div>
+    <div id="Left">
+        <div id="goback" onclick="gameOver()">
+
+        </div>
+        <div id="exp">
+            <img src="ui/expMax.gif" alt=""/>
+        </div>
+        <div id="energy">
+
+        </div>
+    </div>
+    <div id="playTime">
+        <img src="num/0.gif" id="time0"/>
+        <img src="num/1.gif"  id="time1"/>
+        <img src="num/d.png"  id="maohao"/>
+        <img src="num/3.gif"  id="time2"/>
+        <img src="num/0.gif" id="time3"/>
+    </div>
+    <div id="gameover">
+        <p>游戏结束！您的分数为</p>
+        <div id="endscore">
+
+        </div>
+        <div id="btnqr" onclick="gameOver()">
+
+        </div>
+    </div>
+    <div id="bossBlood">
+        <img src="ui/HPMAX.png" alt=""/>
+    </div>
+    <div id="playerBlood">
+        <img src="ui/HPMAX.png" alt=""/>
+    </div>
+
+</div>
+<script src="jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    //开始游戏
+    var gameObj=$("#game")[0];//获取游戏范围框
+    var startObj=$("#startGame")[0];//获取开始按钮  用于改变可见性
+    var introObj=$("#intro")[0];//获取游戏介绍信息框  用于改变可见性
+    var ScoreObj=$("#Score")[0];//获取游戏分数
+    var playerScoreObj=$("#playerScore")[0];//获取游戏分数框   用于改变可见性
+    var endscoreObj=$("#endscore")[0];//获取游戏弹出分数框
+    var leftObj=$("#Left")[0];//获取左边框  用于改变可见性
+    var playTimeObj=$("#playTime")[0];//获取游戏时间框
+    var btn=$("#gameover")[0];//获取死亡后弹出分数框
+    var skillObj=$("#skill")[0];//获取必杀技框
+    var BossBlood;//Boss血量;
+    var PlayerBlood;//玩家血量
+    var playerDragon;//玩家龙对象
+    var playerDragonNode;//玩家龙节点;
+    var playBullet;//玩家子弹节点对象
+    var playBulletNode;//玩家子弹节点节点
+    var BossObj;//boss对象
+    var Boss;
+    var BossBulletObj;//Boss子弹对象
+    var arrBullet=[];//玩家子弹数组
+    var arrMonster=[];//怪物数组
+    var playerScore=0;//积分器
+    var myTime =document.getElementById("time");//游戏时间
+    var BossBloodBox= $("#bossBlood")[0];//获取Boss血量条框
+    var playerBloodBox=$("#playerBlood")[0];//获取玩家血量条框
+    var left = false;
+    var right = false;
+    var up = false;
+    var down = false;
+    var bulle=false;
+    var skill=false;
+    var times;//90秒游戏时间
+
+    //定时器变量
+    var moveBulletTime;//定时移动玩家子弹
+    var createBirdTime;//定时创建怪物小鸟
+    var createPlaneTime;//定时创建怪物飞机
+    var createGhostTime;//定时创建怪物蝙蝠
+    var createBossTime;//20秒后出BOSS
+    var moveBossBulletTime;//移动BOSS子弹
+    var Bossbul;//Boss射击
+    var moveMonsterTime;//定时移动怪物
+    var shengjiPlayerTime;//玩家升级
+    var playerdieTime;//玩家死亡变坟墓
+    var boomTime;//定时判断子弹怪物碰撞
+    var Deadtime;//清除死亡怪物图片和加分数
+    var scoreTime;//计算得分总分
+    var Bulletdeadtime;//清除爆炸子弹图片
+    var timeshowTime;//时间描述
+    var playerAttTime;//玩家攻击状态图片切换
+    var playerShotTime;//玩家发射子弹定时器
+    var playerMoveTime;//玩家移动监测定时器
+    var BossBloodTime;//Boss血量检测定时器
+    var playerBloodTime;//玩家血量检测定时器
+    //键盘按下时
+    window.onkeydown = function () {
+        var ev = window.event || arguments[0];
+        var keyCode = ev.keyCode;
+        switch (keyCode) {
+            case 37://左
+                left = true;
+                break;
+            case 38://上
+                up = true;
+                break;
+            case 39://右
+                right = true;
+                break;
+            case 40://下
+                down = true;
+                break;
+            case 32://子弹
+                bulle=true;
+                break;
+            case 13://必杀技
+                skill=true;
+               if(playerDragon.level>=2){
+                   playerSkill()
+               };
+                break;
+        }
+    };
+    //必杀技
+    function playerSkill(){
+        skillObj.style.display="inline-block";
+        for(var i=arrMonster.length-1;i>=0;i--){
+            arrMonster[i].blood-=1000;
+            if(arrMonster[i].blood<=0){
+                gameObj.removeChild(arrMonster[i].imgNode);
+                arrMonster.splice(i,1);
+             /*   clearInterval(Bossbul);
+                BossBloodBox.style.display="none"*/
+            }
+        }
+        playerScore=playerScore+50;
+        setTimeout(function(){
+            skillObj.style.display="none";
+        },3000)
+    }
+    //键盘弹起时
+    window.onkeyup = function () {
+        var ev = window.event || arguments[0];
+        var keyCode = ev.keyCode;
+        switch (keyCode) {
+            case 37://左
+                left = false;
+                break;
+            case 38://上
+                up = false;
+                break;
+            case 39://右
+                right = false;
+                break;
+            case 40://下
+                down = false;
+                break;
+            case 32://子弹
+                bulle=false;
+                break;
+            case 13://必杀技
+                skill=false;
+                break;
+        }
+    };
+    //开始游戏
+    function startGame(){
+        gameObj.style.backgroundImage='url("bg.jpg")';
+        gameObj.style.backgroundPosition="0 -100px";
+        startObj.style.display="none";
+        introObj.style.display="none";
+        playerScoreObj.style.display="inline-block";
+        leftObj.style.display="inline-block";
+        playTimeObj.style.display="block";
+        BossBloodBox.style.display="inline-block";
+        playerBloodBox.style.display="inline-block";
+        times=90;
+        //创建玩家龙
+        playerDragon=createPlayerDargon();
+        playerDragonNode=playerDragon.imgNode;
+        reTimer();//定时器启动
+        timeshow(); //开始游戏计时
+    }
+    //游戏结束
+    function gameOver(){
+        clearTimer();
+        gameObj.style.backgroundImage='url("readyBg.jpg")';
+        gameObj.style.backgroundPosition="0 -455px";
+        startObj.style.display="inline-block";
+        introObj.style.display="inline-block";
+        playerScoreObj.style.display="none";
+        leftObj.style.display="none";
+        playTimeObj.style.display="none";
+        btn.style.display="none";
+        BossBloodBox.style.display="none";
+        playerBloodBox.style.display="none";
+        arrBullet=[];
+        arrMonster=[];
+        playerScore=0;
+        var imgList=gameObj.getElementsByTagName("img");
+        for(var i=imgList.length-1;i>=0;i--){
+            console.log(imgList);
+            gameObj.removeChild(imgList[i]);
+        }
+    }
+    //分数确认框弹出
+    function scoreBox(){
+        btn.style.display="inline-block";
+        //清除定时器
+        clearTimer()
+    }
+    //清除定时器
+    function clearTimer(){
+        clearInterval(moveBulletTime);
+        clearInterval(createBirdTime);
+        clearInterval(createPlaneTime);
+        clearInterval(createGhostTime);
+        clearInterval(moveBossBulletTime);
+        clearInterval(shengjiPlayerTime);
+        clearInterval(playerdieTime);
+        clearInterval(boomTime);
+        clearInterval(Deadtime);
+        clearInterval(Bulletdeadtime);
+        clearInterval(Bossbul);
+        clearInterval(moveMonsterTime);
+        clearInterval(timeshowTime);
+        clearInterval(playerAttTime);
+        clearInterval(playerShotTime);
+        clearInterval(playerMoveTime);
+        clearInterval(BossBloodTime);
+        clearInterval(playerBloodTime);
+        clearInterval(scoreTime);
+    }
+    //重新启动定时器
+    function reTimer(){
+        moveBulletTime=setInterval(moveBullet,150);//定时移动玩家子弹
+        createBirdTime=setInterval(createBird,3000);//定时创建怪物小鸟
+        createPlaneTime=setInterval(createPlane,4000);//定时创建怪物飞机
+        createGhostTime=setInterval(createGhost,8000);//定时创建怪物蝙蝠
+        createBossTime=setTimeout(createBoss,5000);//20秒后出BOSS
+        moveBossBulletTime=setInterval(moveBossBullet,300);//移动BOSS子弹
+        Bossbul;//Boss射击
+        moveMonsterTime=setInterval(moveMonster,200);//定时移动怪物
+        shengjiPlayerTime=setInterval(shengji,2000);//玩家升级
+        playerdieTime= setInterval(playerdie,300);//判断玩家血量减少和是否死亡
+        boomTime=setInterval(boom,10);//定时判断子弹怪物碰撞
+        Deadtime=setInterval(dead,1500);//清除死亡怪物图片和加分数
+        scoreTime=setInterval(score,500);//计算得分总数并且添加到分数框中
+        Bulletdeadtime=setInterval(Bulletdead,150);//清除爆炸子弹图片
+        timeshowTime=setInterval(timeshow,1000);//事件描述
+        playerAttTime=setInterval(playerAtt,500);//玩家攻击时图片切换定时器
+        playerShotTime=setInterval(playerShot,300);//玩家发射子弹定时器
+        playerMoveTime=setInterval(playerMove, 30);  //玩家龙移动监测定时器
+        BossBloodTime=setTimeout(setInterval(checkBoss,500),5000); //检测Boss血量定时器
+        playerBloodTime=setInterval(checkPlayer,50);//检车玩家血量定时器
+    }
+
+    //玩家龙移动监测
+    function playerMove(){
+        if (left&&parseInt(playerDragonNode.style.left)>0) {
+            playerDragon.moveLeft()
+        }
+        if (up&&parseInt(playerDragonNode.style.top)>0) {
+            playerDragon.moveUp()
+        }
+        if (right&&parseInt(playerDragonNode.style.left)<1300) {
+            playerDragon.moveRight()
+        }
+        if (down&&parseInt(playerDragonNode.style.top)<580) {
+            playerDragon.moveDown()
+        }
+    }
+    //玩家发射子弹
+    function playerShot(){
+        if(bulle){
+            playerDragon.shot();
+        }
+    }
+    //玩家攻击时切换图片
+    function playerAtt(){
+        if(bulle){
+            if(playerDragon.level==1){
+                playerDragonNode.src="dragon/small/magicmissile.gif";
+            }else if(playerDragon.level==2){
+                playerDragonNode.src="dragon/middle/magicmissile.gif";
+            }else if(playerDragon.level==3){
+                playerDragonNode.src="dragon/big/magicmissile.gif";
+            }else if(playerDragon.level==4){
+                playerDragonNode.src="dragon/large/magicmissile.gif";
+            }else if(playerDragon.level==5){
+                playerDragonNode.src="dragon/final/magicmissile.gif";
+            }
+        }
+    }
+
+    //创建玩家龙
+    function createPlayerDargon(){
+        var x=150;
+        var y=300;
+        var myDargon=new PlayerPrototype(x,y,"dragon/small/stand.gif",20,4,1);
+        return myDargon
+    }
+    //创建怪物小鸟
+    function createBird(){
+        //0-600
+        var x=1300;
+        var y=parseInt(Math.random()*600);
+        var bird=new MonsterPrototype(x,y,"enemy/bird/move.gif",5,58,54,3,1);
+        arrMonster.push(bird);
+    }
+    //创建怪物飞机
+    function createPlane(){
+        //0-600
+        var x=1300;
+        var y=parseInt(Math.random()*600);
+        var Plane=new MonsterPrototype(x,y,"enemy/plane/move.gif",7,59,41,20,2);
+        arrMonster.push(Plane);
+    }
+    //创建怪物幽灵
+    function createGhost(){
+        //0-600
+        var x=1300;
+        var y=parseInt(Math.random()*600);
+        var Ghost=new MonsterPrototype(x,y,"enemy/ghost/move.gif",5,107,92,40,3);
+        Ghost.move=function (){
+            var left=(parseInt(this.imgNode.style.left)-this.speed);
+            this.imgNode.style.left=left+"px";
+            var top=(parseInt(this.imgNode.style.top)+(parseInt(Math.random()*50))-parseInt(Math.random()*50));
+            this.imgNode.style.top=top+"px";
+        };
+        arrMonster.push(Ghost);
+    }
+    //创建BOSS
+    function createBoss(){
+        var x=1300;
+        var y=parseInt(Math.random()*50+150);
+        Boss=new MonsterPrototype(x,y,"enemy/boss/move.gif",3,183,163,3000,4);//speed width height blood num
+        Boss.move=function (){
+            var left=(parseInt(this.imgNode.style.left)-this.speed);
+            this.imgNode.style.left=left+"px";
+            var top=(parseInt(this.imgNode.style.top)+(parseInt(Math.random()*10))-parseInt(Math.random()*10));
+            this.imgNode.style.top=top+"px";
+        };
+        Boss.shot=function(){
+            BossBulletObj=new BossBullet((parseInt(Boss.imgNode.style.left)-154),parseInt(Boss.imgNode.style.top+300),"enemy/boss/attackBall.gif",10);
+            arrBullet.push(BossBulletObj);                         //BOSS才调用这个发射子弹方法
+        };
+        Bossbul=setInterval(Boss.shot,5000);
+        arrMonster.push(Boss);
+    }
+
+    //移动玩家龙子弹
+    function moveBullet(){
+        for(var i= 0;i<arrBullet.length;i++){
+            var left=parseInt(arrBullet[i].imgNode.style.left);
+            if(left<=1300&&left>0){
+                arrBullet[i].move();
+            }else{
+                //删除子弹
+                gameObj.removeChild(arrBullet[i].imgNode);
+                arrBullet.splice(i,1);
+                i--;
+            }
+        }
+    }
+    //移动Boss子弹
+    function moveBossBullet(){
+        for(var i= 0;i<arrBullet.length;i++){
+            var left=parseInt(arrBullet[i].imgNode.style.left);
+            if(left<=1300&&left>0){
+                arrBullet[i].move();
+            }else{
+                //删除子弹
+                gameObj.removeChild(arrBullet[i].imgNode);
+                arrBullet.splice(i,1);
+                i--;
+            }
+        }
+    }
+    //移动怪物
+    function moveMonster(){
+        for(var i= 0;i<arrMonster.length;i++){
+            var left=parseInt(arrMonster[i].imgNode.style.left);
+            var top=parseInt(arrMonster[i].imgNode.style.top);
+            if(left>0&&top>0){
+                arrMonster[i].move();
+            }else{
+                //删除飞机
+                gameObj.removeChild(arrMonster[i].imgNode);
+                arrMonster.splice(i,1);
+                i--;
+            }
+        }
+    }
+    //玩家升级
+    function shengji(){
+        if(playerScore<10){
+            playerDragonNode.src="dragon/small/stand.gif";
+            playerDragon.level=1;
+        }
+        else if(playerScore>=10&&playerScore<20){
+            playerDragonNode.src="dragon/middle/stand.gif";
+            playerDragon.level=2;
+        }else if(playerScore>=20&&playerScore<40){
+            playerDragonNode.src="dragon/big/stand.gif";
+            playerDragon.level=3;
+        }else if(playerScore>=40&&playerScore<80){
+            playerDragonNode.src="dragon/large/stand.gif";
+            playerDragon.level=4;
+        } else if(playerScore>=80){
+            playerDragonNode.src="dragon/final/stand.gif";
+            playerDragon.level=5;
+        }
+    }
+    //玩家血量监测
+    function checkPlayer(){
+        PlayerBlood=parseInt(playerDragon.blood)*14;
+       /* console.log(PlayerBlood);*/
+        var PlayerBloodX=parseInt(playerDragon.imgNode.style.left)+5;
+        var PlayerBloodY=parseInt(playerDragon.imgNode.style.top)-30;
+        playerBloodBox.style.width=PlayerBlood+"px";
+        playerBloodBox.style.left=PlayerBloodX+"px";
+        playerBloodBox.style.top=PlayerBloodY+"px";
+    }
+    //玩家龙和怪物碰撞血量减少 和判断玩家死亡
+    function playerdie() {
+        for (var j = arrMonster.length - 1; j >= 0; j--) {
+            var monsterX = parseInt(arrMonster[j].imgNode.style.left);//获取怪物X坐标
+            var monsterY = parseInt(arrMonster[j].imgNode.style.top);//获取怪物Y坐标
+            var playerDragonX=parseInt(playerDragon.imgNode.style.left);//获取玩家X坐标
+            var playerDragonY=parseInt(playerDragon.imgNode.style.top);//获取玩家Y坐标
+            if (playerDragonX >= monsterX - playerDragon.imgNode.style.width && playerDragonX <= monsterX + arrMonster[j].width && playerDragonY >= monsterY - playerDragon.imgNode.style.height && playerDragonY <= monsterY + arrMonster[j].height) {
+                playerDragon.blood--;
+                console.log( playerDragon.blood+"玩家血量");
+                if(playerDragon.blood<=0){
+                    playerDragon.isdead=true;
+                    console.log( playerDragon.isdead+"玩家是否死亡");
+                    if(playerDragon.isdead==true){
+                        playerDragon.imgNode.src="dragon/dead/dead.gif";
+                        scoreBox();//弹出结束时的分数框
+                    }
+                }
+            }
+        }
+
+    }
+
+    //怪物子弹发生碰撞 判断怪物血量
+    function boom(){
+        for(var i=arrBullet.length-1;i>=0;i--){
+            var bulletX=parseInt(arrBullet[i].imgNode.style.left);//获取子弹X坐标
+            var bulletY=parseInt(arrBullet[i].imgNode.style.top);//获取子弹Y坐标
+            for(var j=arrMonster.length-1;j>=0;j--){
+                var monsterX=parseInt(arrMonster[j].imgNode.style.left);//获取怪物X坐标
+                var monsterY=parseInt(arrMonster[j].imgNode.style.top);//获取怪物Y坐标
+                if(bulletX>=monsterX-arrBullet[i].width&&bulletX<=monsterX+arrMonster[j].width&&bulletY>=monsterY-arrBullet[i].height&&bulletY<=monsterY+arrMonster[j].height){
+                    //怪物爆炸
+                    if(arrMonster[j].num==1){
+                        arrMonster[j].imgNode.src="enemy/bird/hit.gif";
+                        arrMonster[j].blood-=parseInt(playerDragon.level);//怪物血量减少依据玩家子弹而定
+                    }else if(arrMonster[j].num==2){
+                        arrMonster[j].imgNode.src="enemy/plane/hit.gif";
+                        arrMonster[j].blood-=parseInt(playerDragon.level);//怪物血量减少依据玩家子弹而定
+                    }else if(arrMonster[j].num==3){
+                        arrMonster[j].imgNode.src="enemy/ghost/hit.gif";
+                        arrMonster[j].blood-=parseInt(playerDragon.level);//怪物血量减少依据玩家子弹而定
+                    }else if(arrMonster[j].num==4){
+                        arrMonster[j].imgNode.src="enemy/boss/hit.gif";
+                        arrMonster[j].blood-=parseInt(playerDragon.level);//怪物血量减少依据玩家子弹而定
+                    }
+                    if(arrMonster[j].blood<=0){
+                        arrMonster[j].isdead=true;          //怪物血量降低至0以下 就判断死亡 把怪物图片更换为死亡状态
+                        if(arrMonster[j].num==1){
+                            arrMonster[j].imgNode.src="enemy/bird/die.gif"
+                        }else if(arrMonster[j].num==2){
+                            arrMonster[j].imgNode.src="enemy/plane/die.gif"
+                        }else if(arrMonster[j].num==3){
+                            arrMonster[j].imgNode.src="enemy/ghost/die.gif"
+                        }else if(arrMonster[j].num==4){
+                            arrMonster[j].imgNode.src="enemy/boss/die.gif";
+                            clearInterval(Bossbul)
+                        }
+                    }
+                    //子弹爆炸
+                    /* console.log(arrMonster[j].blood);*/
+                    arrBullet[i].isdead=true;
+                    if(parseInt(playerDragon.level)==1){
+                        arrBullet[i].imgNode.src="dragon/small/hit.gif"
+                    }else if(parseInt(playerDragon.level)==2){
+                        arrBullet[i].imgNode.src="dragon/middle/hit.gif"
+                    }else if(parseInt(playerDragon.level)==3){
+                        arrBullet[i].imgNode.src="dragon/big/hit.gif"
+                    }else if(parseInt(playerDragon.level)==4){
+                        arrBullet[i].imgNode.src="dragon/large/hit.gif"
+                    }else if(parseInt(playerDragon.level)==5){
+                        arrBullet[i].imgNode.src="dragon/final/hit.gif"
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    //怪物死亡消失 清除图片和计算得分
+    function dead(){
+        for(var j=arrMonster.length-1;j>=0;j--){
+            //怪物消失
+            if(arrMonster[j].isdead==true){
+                if(arrMonster[j].num==1){
+                    playerScore++;
+                }else if(arrMonster[j].num==2){
+                    playerScore+=2;
+                }else if(arrMonster[j].num==3){
+                    playerScore+=3;
+                }else if(arrMonster[j].num==4){
+                    BossObj=arrMonster[j];
+                    setTimeout(Bossdie,2500);
+                    setTimeout(scoreBox,4000);
+                    arrMonster.splice(j,1);
+                    return;
+                }
+                gameObj.removeChild(arrMonster[j].imgNode);
+                arrMonster.splice(j,1);
+            }
+        }
+    }
+
+
+    //监测Boss血量
+    function checkBoss(){
+        BossBlood=parseInt(Boss.blood)/15;
+        var BossBloodX=parseInt(Boss.imgNode.style.left);
+        var BossBloodY=parseInt(Boss.imgNode.style.top)-50;
+        BossBloodBox.style.width=BossBlood+"px";
+        BossBloodBox.style.left=BossBloodX+"px";
+        BossBloodBox.style.top=BossBloodY+"px";
+    }
+
+    //BOSS死亡移除
+    function Bossdie(){
+        gameObj.removeChild(BossObj.imgNode);
+        clearInterval(Bossbul)
+    }
+
+    //子弹消失
+    function Bulletdead(){
+        for(var j=arrBullet.length-1;j>=0;j--){
+            if(arrBullet[j].isdead==true){
+                gameObj.removeChild(arrBullet[j].imgNode);
+                arrBullet.splice(j,1);
+            }
+        }
+    }
+
+    //得分系统
+    function score(){
+        ScoreObj.innerHTML=playerScore;//把获得的分数转换到页面分数框数值
+        endscoreObj.innerHTML=playerScore;//把获得的分数转换到弹出分数框数值
+    }
+
+
+    //计时系统
+    function timeshow() {
+            times--;
+            var time0 = $("#time0")[0];
+            var time1 = $("#time1")[0];
+            var time2 = $("#time2")[0];
+            var time3 = $("#time3")[0];
+            if (times >= 0) {
+                var s1, s2;
+                var m = parseInt(times / 60);
+                s1=parseInt(times%60/10);
+                s2=parseInt(times%10);
+                time0.src = "num/" + 0 + ".gif";
+                time1.src = "num/" + m + ".gif";          //图片不变化
+                time2.src = "num/" + s1 + ".gif";
+                time3.src = "num/" + s2 + ".gif";
+            } else {
+                scoreBox();//弹出游戏分数框
+            }
+    }
+
+    //玩家龙原型
+    function PlayerPrototype(x,y,src,speed,blood,level){
+        this.x=x;
+        this.y=y;
+        this.src=src;
+        this.speed=speed;
+        this.blood=blood;
+        this.level=level;
+        this.isdead=false;
+        this.imgNode=document.createElement("img");
+        this.shot=function(){
+            //创建子弹对象
+            if(this.level==1){
+                playBullet=new Bullet((parseInt(this.imgNode.style.left)+53),(parseInt(this.imgNode.style.top)+20),"dragon/small/att.gif",50,30,21,1);
+            }
+            if(this.level==2){
+                playBullet=new Bullet((parseInt(this.imgNode.style.left)+53),(parseInt(this.imgNode.style.top)+20),"dragon/middle/att.gif",50,50,37,2);
+            }
+            if(this.level==3){
+                playBullet=new Bullet((parseInt(this.imgNode.style.left)+53),(parseInt(this.imgNode.style.top)+20),"dragon/big/att.gif",50,61,57,3);
+            }
+            if(this.level==4){
+                playBullet=new Bullet((parseInt(this.imgNode.style.left)+53),(parseInt(this.imgNode.style.top)+20),"dragon/large/att.gif",50,157,38,4);
+            }
+            if(this.level==5){
+                playBullet=new Bullet((parseInt(this.imgNode.style.left)+53),(parseInt(this.imgNode.style.top)+20),"dragon/final/att.gif",50,212,106,5);
+            } //按下空格射击时创建子弹对象
+            playBulletNode=playBullet.imgNode;//玩家子弹节点
+            arrBullet.push(playBullet);
+        };
+        this.moveLeft=function(){
+            playerDragonNode.style.left = playerDragonNode.offsetLeft - 10 + "px";
+        };
+        this.moveUp=function(){
+            playerDragonNode.style.top = playerDragonNode.offsetTop - 10 + "px";
+        };
+        this.moveRight=function(){
+            playerDragonNode.style.left = playerDragonNode.offsetLeft + 10 + "px";
+        };
+        this.moveDown=function(){
+            playerDragonNode.style.top = playerDragonNode.offsetTop + 10 + "px";
+        };
+        this.init=function(){           //组装玩家龙 初始化
+            this.imgNode.src=this.src;
+            this.imgNode.style.left=x+"px";
+            this.imgNode.style.top=y+"px";
+            gameObj.appendChild(this.imgNode);
+        };
+        this.init();
+    }
+
+     //玩家子弹原型
+    function Bullet(x,y,src,speed,width,height,level){
+        this.x=x;
+        this.y=y;
+        this.src=src;
+        this.speed=speed;
+        this.width=width;
+        this.height=height;
+        this.level=level;
+        this.isdead=false;
+        this.imgNode=document.createElement("img");
+        this.move=function(){
+            var left=(parseInt(this.imgNode.style.left)+this.speed);
+            this.imgNode.style.left=left+"px";
+        };
+        this.init=function(){           //组装子弹（初始化）
+            this.imgNode.src=this.src;
+            this.imgNode.style.left=x+"px";
+            this.imgNode.style.top=y+"px";
+            gameObj.appendChild(this.imgNode);
+        };
+        this.init();
+    }
+    //BOSS子弹原型
+    function BossBullet(x,y,src,speed,width,height){
+        this.x=x;
+        this.y=y;
+        this.src=src;
+        this.speed=speed;
+        this.width=width;
+        this.height=height;
+        this.imgNode=document.createElement("img");
+        this.move=function(){
+            var left=(parseInt(this.imgNode.style.left)-this.speed);
+            this.imgNode.style.left=left+"px";
+        };
+        this.init=function(){           //组装子弹（初始化）
+            this.imgNode.src=this.src;
+            this.imgNode.style.left=x+"px";
+            this.imgNode.style.top=y+"px";
+            gameObj.appendChild(this.imgNode);
+        };
+        this.init();
+    }
+
+    //怪物原型 prototype
+    function MonsterPrototype(x,y,src,speed,width,height,blood,num){
+        this.x=x;
+        this.y=y;
+        this.src=src;
+        this.speed=speed;
+        this.width=width;
+        this.height=height;
+        this.blood=blood;
+        this.num=num;
+        this.isdead=false;
+        this.imgNode=document.createElement("img");
+        this.shot=function(){
+
+        };
+        this.move=function(){
+            var left=(parseInt(this.imgNode.style.left)-this.speed);
+            this.imgNode.style.left=left+"px";
+        };
+        this.init=function(){           //组装敌机（初始化）
+            this.imgNode.src=this.src;
+            this.imgNode.style.left=x+"px";
+            this.imgNode.style.top=y+"px";
+            gameObj.appendChild(this.imgNode);
+        };
+        this.init();
+    }
+</script>
+</body>
+</html>
